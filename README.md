@@ -1,21 +1,22 @@
-# 🔍 Consulta de CEP com API ViaCEP
+# 📍 Consulta de CEP com API ViaCEP + Exportação em JSON
 
-Este projeto Java permite consultar informações de endereço com base em um CEP, utilizando a API pública do [ViaCEP](https://viacep.com.br). É uma aplicação de linha de comando com tratamento de exceções e resposta em formato JSON.
+Este projeto Java permite consultar endereços a partir de CEPs usando a API pública do [ViaCEP](https://viacep.com.br), armazenando os resultados em um arquivo JSON formatado. É uma aplicação de linha de comando com tratamento de erros e exportação local dos dados.
 
 ## 🚀 Funcionalidades
 
-- Solicita ao usuário um CEP.
-- Realiza uma requisição GET para a API do ViaCEP.
-- Exibe os dados JSON retornados pela API.
-- Trata exceções como:
-  - Requisição malformada (400)
-  - CEP inexistente (404)
-  - Problemas de conexão
+- Solicita ao usuário múltiplos CEPs.
+- Realiza requisições GET para a API do ViaCEP.
+- Exibe as informações do endereço obtido.
+- Armazena os resultados em um arquivo `enderecos.json`.
+- Trata exceções:
+  - CEP inválido ou não encontrado.
+  - Problemas de conexão com a API.
 
 ## 🛠️ Tecnologias Utilizadas
 
 - Java 11+
-- `java.net.http.HttpClient` para chamadas HTTP
+- `java.net.http.HttpClient` (requisições HTTP)
+- [Gson](https://github.com/google/gson) para manipulação de JSON
 - API pública do [ViaCEP](https://viacep.com.br)
 
 ## 📁 Estrutura do Projeto
@@ -26,8 +27,11 @@ br/com/alura/consultaCep/
 ├── excecoes/
 │ └── BuscaInvalidaException.java // Exceção personalizada para CEPs inválidos ou não encontrados
 │
+├── modelos/
+│ └── Endereco.java // Classe modelo que representa os dados retornados pelo ViaCEP
+│
 └── principais/
-└── Main.java // Classe principal com lógica de entrada, requisição HTTP e exibição de resultados
+└── Main.java // Classe principal: entrada de dados, chamada API, exportação JSON
 ```
 
 ## 📦 Como Executar o Projeto
@@ -41,14 +45,16 @@ cd ./ConsultaCep
 
 Compile o projeto
 Na sua IDE preferida
-Certifique-se de estar usando o Java 11 ou superior.
+Certifique-se de estar usando o Java 11 ou superior e ter instalado a dependência [Gson](https://github.com/google/gson).
 
-⚠️ Tratamento de Erros
+## ⚠️ Tratamento de Erros
 
-    400 ou 404: Se o CEP for malformado ou não encontrado, é lançada uma exceção BuscaInvalidaException.
+    BuscaInvalidaException: Lançada para CEPs inexistentes (400 ou 404).
 
-    IOException / InterruptedException: Erros de conexão são tratados com mensagens amigáveis ao usuário.
+    IOException / InterruptedException: Tratadas com mensagens de erro amigáveis.
 
-📄 Licença
+    Arquivo JSON: Erros ao salvar o arquivo também são tratados.
 
-Este projeto tem fins educacionais e pode ser utilizado livremente conforme a licença MIT.
+## 📄 Licença
+
+Este projeto é para fins educacionais e está sob a licença MIT. Sinta-se livre para modificar, usar ou distribuir.
