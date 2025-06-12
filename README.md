@@ -1,40 +1,68 @@
-# 📍 Consulta de CEP com API ViaCEP + Exportação em JSON
+# 📦 Consulta de CEPs com ViaCEP
 
-Este projeto Java permite consultar endereços a partir de CEPs usando a API pública do [ViaCEP](https://viacep.com.br), armazenando os resultados em um arquivo JSON formatado. É uma aplicação de linha de comando com tratamento de erros e exportação local dos dados.
+Este é um projeto Java simples que permite ao usuário consultar endereços a partir de CEPs brasileiros utilizando a API pública [ViaCEP](https://viacep.com.br/). Os dados retornados são exibidos no terminal e salvos localmente em arquivos `.json`.
+
+---
 
 ## 🚀 Funcionalidades
 
-- Solicita ao usuário múltiplos CEPs.
-- Realiza requisições GET para a API do ViaCEP.
-- Exibe as informações do endereço obtido.
-- Armazena os resultados em um arquivo `enderecos.json`.
-- Trata exceções:
-  - CEP inválido ou não encontrado.
-  - Problemas de conexão com a API.
+- Consulta de endereço a partir de um CEP.
+- Tratamento de erros e CEPs inválidos.
+- Salvamento automático dos dados consultados em arquivos JSON.
+- Interface simples via terminal.
+- Criação de arquivos separados para cada CEP consultado.
 
-## 🛠️ Tecnologias Utilizadas
+---
 
-- Java 11+
-- `java.net.http.HttpClient` (requisições HTTP)
-- [Gson](https://github.com/google/gson) para manipulação de JSON
-- API pública do [ViaCEP](https://viacep.com.br)
-
-## 📁 Estrutura do Projeto
+## 📸 Exemplo de uso
 
 ```
-br/com/alura/consultaCep/
-│
-├── excecoes/
-│ └── BuscaInvalidaException.java // Exceção personalizada para CEPs inválidos ou não encontrados
-│
-├── modelos/
-│ └── Endereco.java // Classe modelo que representa os dados retornados pelo ViaCEP
-│
-└── principais/
-└── Main.java // Classe principal: entrada de dados, chamada API, exportação JSON
+Bem-vindo ao consultador de CEPs (digite 'Sair' para fechar o software)
+Digite o CEP que deseja consultar: 01001000
+{
+  "cep": "01001-000",
+  "logradouro": "Praça da Sé",
+  "complemento": "lado ímpar",
+  "bairro": "Sé",
+  "localidade": "São Paulo",
+  "estado": "SP",
+  "regiao": null
+}
+Endereço salvo no arquivo: 01001000.json
 ```
 
-## 📦 Como Executar o Projeto
+---
+
+## 🛠️ Tecnologias utilizadas
+
+Java 17+
+
+API HTTP do Java (java.net.http.HttpClient)
+
+Gson para serialização e desserialização JSON
+
+API pública ViaCEP
+
+---
+
+## 📂 Estrutura do Projeto
+
+```
+src/
+├── br/com/alura/consultaCep/
+│   ├── principais/
+│   │   └── Main.java
+│   ├── modelos/
+│   │   └── Endereco.java
+│   └── excecoes/
+│       └── BuscaInvalidaException.java
+```
+
+---
+
+## ⚙️ Como executar
+
+Clone o repositório:
 
 1. **Clone o repositório (ou copie os arquivos):**
 
@@ -47,14 +75,16 @@ Compile o projeto
 Na sua IDE preferida
 Certifique-se de estar usando o Java 11 ou superior e ter instalado a dependência [Gson](https://github.com/google/gson).
 
-## ⚠️ Tratamento de Erros
+---
 
-    BuscaInvalidaException: Lançada para CEPs inexistentes (400 ou 404).
+## 📁 Onde os dados são salvos?
 
-    IOException / InterruptedException: Tratadas com mensagens de erro amigáveis.
+Cada endereço é salvo em um arquivo JSON nomeado com o CEP, por exemplo:
 
-    Arquivo JSON: Erros ao salvar o arquivo também são tratados.
+    01001000.json
 
-## 📄 Licença
+---
 
-Este projeto é para fins educacionais e está sob a licença MIT. Sinta-se livre para modificar, usar ou distribuir.
+## 📜 Licença
+
+Este projeto é de uso educacional, inspirado nos cursos da [Alura](https://alura.com.br). Sinta-se livre para modificar e melhorar.
