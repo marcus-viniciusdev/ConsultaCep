@@ -11,9 +11,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 
-public record Endereco(String cep, String bairro, String localidade, String estado, String regiao) {
+public record Endereco(String cep, String logradouro, String complemento, String bairro, String localidade, String estado, String regiao) {
     public static Endereco buscaEndereco(String busca) throws IOException, InterruptedException {
         String endereco = "https://viacep.com.br/ws/" + URLEncoder.encode(busca, StandardCharsets.UTF_8) + "/json";
         HttpClient client = HttpClient.newHttpClient();
@@ -26,15 +25,13 @@ public record Endereco(String cep, String bairro, String localidade, String esta
         String json = response.body();
         System.out.println(json);
 
-        Gson gson = new Gson().newBuilder().setPrettyPrinting().create();
-        return gson.fromJson(json, Endereco.class);
+        return new Gson().fromJson(json, Endereco.class);
     }
 
-    public static void salvaEnderecos(List<Endereco> enderecos) {
-        try (FileWriter fileWriter = new FileWriter("enderecos.json")) {
-            Gson gson = new Gson().newBuilder().setPrettyPrinting().create();
-            fileWriter.write(gson.toJson(enderecos));
-            System.out.println(enderecos);
+    public static void salvaEnderecos(Endereco endereco) {
+        try (FileWriter fileWriter = new FileWriter(endereco.cep + ".json")) {
+            fileWriter.write(new Gson().newBuilder().setPrettyPrinting().create().toJson(endereco));
+            System.out.println("Endereço salvo no arquivo: " + endereco.cep + ".json");
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
